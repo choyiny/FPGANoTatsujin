@@ -1,0 +1,86 @@
+CSCB58 Project File: Summer 2017
+
+Team Member A
+-------------
+First Name: Cho Yin
+Last Name: Yong
+Student Number: 1002897412
+UofT E-mail Address: choyin.yong@mail.utoronto.ca
+
+
+Team Member B
+-------------
+First Name: Austin
+Last Name: Seto
+Student Number: 1002969139
+UofT E-mail Address: austin.seto@mail.utoronto.ca
+
+Project Details
+---------------
+Project Title: Rhythm Game
+
+Project Description: A rhythm game where the player will try to press the FGPA board buttons in sync with 'notes' that pass by on the screen.
+
+Video URL:
+
+Code URL (please upload a copy of this file to your repository at the end of the project as well, it will
+serve as a useful resource for future development):
+
+
+Proposal
+--------
+
+What do you plan to have completed by the end of the first lab session?:
+- Shifter bits with loading and reading for 100 bits
+- Timer to shift notes to simulate playing song
+- Counter to increase score
+- Have a working "animation" of a moving block
+
+What do you plan to have completed by the end of the second lab session?:
+- Output rhythm to VGA
+- Have score increase if buttons pressed in the right time
+- make script to generate rhythm bits
+
+What do you plan to have completed by the end of the third lab session?:
+- Multiple songs to choose from
+
+- Fix bugs in edge cases
+- Add additional features if time permits (eg. receive sounds from a microphone, output notes to speaker)
+
+What is your backup plan if things don't work out as planned?
+- If VGA doesn't work, last resort is moving lights in LEDR
+
+
+What hardware will you need beyond the DE2 board?
+Speakers, Microphone (if time permits)
+
+
+Motivations
+-----------
+How does this project relate to the material covered in CSCB58?:
+It implements and brings together many components we have used (timers, shifter bits, finite state machines)
+
+Why is this project interesting/cool (for CSCB58 students, and for non CSCB58 students?):
+- It's a rhythm game that is made by hardware, not the typical rhythm game programmed in Java
+
+Why did you personally choose this project?:
+- It allows us to demonstrate our understanding in many parts of the course syllabus, such as outputting to VGA, shifting bits, using finite state machines, counters, etc.
+- Because we love rhythm games
+- Because we like music
+- https://www.youtube.com/watch?v=dQw4w9WgXcQ <- Our inspiration
+
+Attributions
+------------
+Provide a complete list of any external resources your project used (attributions should also be included in your
+code).  
+
+Updates
+-------
+
+<Example update. Delte this and add your own updates after each lab session>
+Week 1: We built the hardware and tested the sensors. The distance sensor we had intended to use didn't work as
+expected (wasn't precise enough at further distances, only seems to work accurately within 5-10cm), so instead
+we've decided to change the project to use a light sensor instead. Had trouble getting the FSM to work (kept
+getting stuck in state 101, took longer to debug than expected), so we may not be able to add the
+high score feature, have updated that in the project description as (optional).
+tim
