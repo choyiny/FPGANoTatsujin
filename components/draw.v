@@ -4,9 +4,7 @@ module datapath(
 	input [6:0] y_coords,
 	input [1:0] xOffset,
 	input [1:0] yOffset,
-  input draw, // draw the square if 1, erase to black otherwise.
 	input resetn,
-	input saveX,
 	output[7:0] finalX,
 	output[6:0] finalY,
 	output reg [2:0] output_colour
@@ -14,17 +12,6 @@ module datapath(
 
 	assign finalY = {y_coords + yOffset};
 	assign finalX = {x_coords + xOffset};
-
-	// set color
-  always @(*)
-  begin
-    // use input colour if draw
-    if (draw)
-      output_colour <= input_colour[2:0];
-    // erase to black otherwise
-    else
-      output_colour <= 3'b000;
-  end
 
 endmodule
 
