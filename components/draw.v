@@ -13,6 +13,9 @@ module datapath(
 	assign finalY = {y_coords + yOffset};
 	assign finalX = {x_coords + xOffset};
 
+	// set color
+	assign output_colour = input_colour[2:0];
+
 endmodule
 
 /**

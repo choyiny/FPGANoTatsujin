@@ -90,7 +90,7 @@ module project(
    );
 
   rate_divider for_draw_10_square(.clock(CLOCK_50),
-                                  .divide_by(28'b10100000),
+                                  .divide_by(28'b0010111110101111000010000000),
                                   .reset_b(1'b1),
                                   .out_signal(divided_clock)
                                   );
@@ -101,7 +101,6 @@ module project(
   square10 draw_10_squares(.red_sequence(10'b0110101010),
                            .yellow_sequence(10'b0000000000),
                            .clk(divided_clock),
-                           .resetn(1'b0),
                            .plot(dummy),
                            .starting_x(start_x),
                            .starting_y(start_y),
