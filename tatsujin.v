@@ -3,6 +3,7 @@ module project(
   // Your inputs and outputs here
     KEY,
     SW,
+    LEDR,
   // The ports below are for the VGA output.  Do not change.
   VGA_CLK,               //  VGA Clock
   VGA_HS,              //  VGA H_SYNC
@@ -66,44 +67,46 @@ module project(
   // Instansiate datapath
   // datapath d0(...);
 
-  wire [7:0] start_x;
-  wire [6:0] start_y;
-  wire [2:0] the_color;
+  wire [7:0] start_x = 8'b1010_0101
+  wire [6:0] start_y = 7'b1010101;
+  wire [2:0] the_color = 3'b100;
   wire [1:0] x_offset, y_offset;
 
   datapath draw_a_square(.input_colour(the_colour),
                          .x_coords(start_x),
-    .y_coords(start_y),
-    .xOffset(x_offest),
-    .yOffset(y_offset),
-    .finalX(x),
-    .finalY(y),
-    .output_colour(colour)
+                         .y_coords(start_y),
+                         .xOffset(x_offest),
+                         .yOffset(y_offset),
+                         .finalX(x),
+                         .finalY(y),
+                         .output_colour(colour)
     );
 
   square4x4 square_make(.clk(CLOCK_50),
                         .resetn(1'b0),
-   .go(1'b1),
-   .xOffset(x_offset),
-   .yOffset(y_offset),
-   .plot(writeEn)
+                        .go(1'b1),
+                        .xOffset(x_offset),
+                        .yOffset(y_offset),
+                        .plot(writeEn)
    );
 
-  rate_divider for_draw_10_square(.clock(CLOCK_50),
-                                  .divide_by(28'b0010111110101111000010000000),
-                                  .reset_b(1'b1),
-                                  .out_signal(divided_clock)
-                                  );
-
-  wire divided_clock;
-  wire dummy;
-
-  square10 draw_10_squares(.red_sequence(10'b0110101010),
-                           .yellow_sequence(10'b0000000000),
-                           .clk(divided_clock),
-                           .starting_x(start_x),
-                           .starting_y(start_y),
-                           .colour(the_colour)
-                           );
+  // rate_divider for_draw_10_square(.clock(CLOCK_50),
+  //                                 .divide_by(28'b0010111110101111000010000000),
+  //                                 .reset_b(1'b1),
+  //                                 .out_signal(divided_clock)
+  //                                 );
+  //
+  // wire divided_clock;
+  //
+  // // debug things
+  // LEDR[2] = divided_clock;
+  //
+  // square10 draw_10_squares(.red_sequence(10'b0110101010),
+  //                          .yellow_sequence(10'b0000000000),
+  //                          .clk(divided_clock),
+  //                          .starting_x(start_x),
+  //                          .starting_y(start_y),
+  //                          .colour(the_colour)
+  //                          );
 
 endmodule

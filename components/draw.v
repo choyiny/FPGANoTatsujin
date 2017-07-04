@@ -4,7 +4,6 @@ module datapath(
 	input [6:0] y_coords,
 	input [1:0] xOffset,
 	input [1:0] yOffset,
-	input resetn,
 	output[7:0] finalX,
 	output[6:0] finalY,
 	output reg [2:0] output_colour
