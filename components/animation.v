@@ -27,16 +27,19 @@ module square10(
   // BLUE = 4
   reg [3:0] draw;
 
+  localparam BLACK = 3'b000, RED = 3'b100, YELLOW, 3'b110, GREEN = 3'b010,
+             BLUE = 3'b001;
+
   // assign colour based on the draw register
   assign @(*)
     begin: change_colour
       case (draw)
-        4'd0: colour = 3'b000; // black
-        4'd1: colour = 3'b100; // red
-        4'd2: colour = 3'b110; // yellow
-        4'd3: colour = 3'b010; // green
-        4'd4: colour = 3'b001; // blue
-        default: colour = 3'b001; // default
+        4'd0: colour = BLACK; // black
+        4'd1: colour = RED; // red
+        4'd2: colour = YELLOW; // yellow
+        4'd3: colour = GREEN; // green
+        4'd4: colour = BLUE; // blue
+        default: colour = BLUE; // default
       endcase
     end
 
@@ -71,16 +74,87 @@ module square10(
   always@(*)
   begin: make_output
     case(current_state)
-      SQ1: starting_x = 7'd10;
-      SQ2: starting_x = 7'd20;
-      SQ3: starting_x = 7'd30;
-      SQ4: starting_x = 7'd40;
-      SQ5: starting_x = 7'd50;
-      SQ6: starting_x = 7'd60;
-      SQ7: starting_x = 7'd70;
-      SQ8: starting_x = 7'd80;
-      SQ9: starting_x = 7'd90;
-      SQ10: starting_x = 7'd100;
+      SQ1:
+        begin
+          starting_x = 7'd10;
+          if (red_sequence[0] == 1'b1)
+            draw <= RED;
+          else
+            if (yellow_sequence[0] == 1'b1)
+              draw <= YELLOW;
+        end
+      SQ2: begin
+        starting_x = 7'd20;
+        if (red_sequence[1] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[1] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ3: begin
+        starting_x = 7'd30;
+        if (red_sequence[2] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[2] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ4: begin
+        starting_x = 7'd40;
+        if (red_sequence[3] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[3] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ5: begin
+        starting_x = 7'd50;
+        if (red_sequence[4] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[4] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ6: begin
+        starting_x = 7'd60;
+        if (red_sequence[5] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[5] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ7: begin
+        starting_x = 7'd70;
+        if (red_sequence[6] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[6] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ8: begin
+        starting_x = 7'd80;
+        if (red_sequence[7] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[7] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ9: begin
+        starting_x = 7'd90;
+        if (red_sequence[8] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[8] == 1'b1)
+            draw <= YELLOW;
+      end
+      SQ10: begin
+        starting_x = 7'd100;
+        if (red_sequence[9] == 1'b1)
+          draw <= RED;
+        else
+          if (yellow_sequence[9] == 1'b1)
+            draw <= YELLOW;
+      end
       RESTING: starting_x = 7'd0;
     endcase
   end
