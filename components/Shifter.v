@@ -1,5 +1,152 @@
 `timescale 1ns / 1ns
 
+// 100 bit shifter
+module shifter100Bit(load_val, in, shift, load_n, clock, reset_n, out);
+  input [99:0] load_val;
+  input in, shift, load_n, reset_n;
+  input clockl
+  output [99:0] out;
+  
+  wire out_0, out_1, out_2, out_3, out_4, out_5, out_6, out_7, out_8, out_9;
+  
+  assign out = {out_9, out_8, out_7, out_6, out_5, out_4, out_3, out_2, out_1, out_0};
+  
+  shifter10Bit s9(
+    .load_val(load_val[99:90]),
+    .in(in),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_9)
+  );
+  
+  shifter10Bit s8(
+    .load_val(load_val[89:80]),
+    .in(out_9[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_8)
+  );
+  
+  shifter10Bit s7(
+    .load_val(load_val[79:70]),
+    .in(out_8[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_7)
+  );
+  
+  shifter10Bit s6(
+    .load_val(load_val[69:60]),
+    .in(out_7[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_6)
+  );
+  
+  shifter10Bit s5(
+    .load_val(load_val[59:50]),
+    .in(out_6[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_5)
+  );
+  
+  shifter10Bit s4(
+    .load_val(load_val[49:40]),
+    .in(out_5[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_4)
+  );
+  
+  shifter10Bit s3(
+    .load_val(load_val[39:30]),
+    .in(out_4[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_3)
+  );
+  
+  shifter10Bit s2(
+    .load_val(load_val[29:20]),
+    .in(out_3[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_2)
+  );
+  
+  shifter10Bit s1(
+    .load_val(load_val[19:10]),
+    .in(out_2[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_1)
+  );
+  
+  shifter10Bit s0(
+    .load_val(load_val[9:0]),
+    .in(out_1[0]),
+    .shift(shift),
+    .load_n(load_n),
+    .clock(clock),
+    .reset_n(reset_n),
+    .out(out_0)
+  );
+endmodule
+
+// 10 bit shifter
+// 10 is another easy number to work with
+module shifter10Bit(load_val, in, shift, load_n, clock, reset_n, out);
+  input [9:0] load_val;
+  input in, shift, load_n, reset_n;
+  input clock;
+  output [9:0] out;
+  
+  // outputs of bits
+  wire lower_5_out, upper_5_out;
+  
+  assign out = {upper_5_out, lower_5_out};
+  
+  shifter5Bit upper(
+    .load_val(load_val[9:5]),
+    .in(in),
+    .clk(clock),
+    .reset_n(reset_n),
+    .shift(shift),
+    .load_n(load_n),
+    .out(upper_5_out);
+  );
+  
+  shifter5Bit lower(
+    .load_val(load_val[4:0]),
+    .in(upper_5_out[0]),
+    .clk(clock),
+    .reset_n(reset_n),
+    .shift(shift),
+    .load_n(load_n),
+    .out(upper_5_out);
+  );
+endmodule
+
+
 // 5 bit shifter
 // 5 is an easy number to work with
 module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
