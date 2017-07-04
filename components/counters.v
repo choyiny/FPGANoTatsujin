@@ -1,12 +1,12 @@
 /**
- * Counter that counts up to eight bits in hexadecimal
+ * Counter that counts up to eight bits
  * @input enable enable/disable the counter
- * @input increase signal to increase counter by 1
+ * @input clock signal to increase counter by 1
  * @input clear_b to reset the counter to 0
  *
  * @output q output the 8 bit hexadecimal
  */
-module score_counter(enable, increase, clear_b, q);
+module counter(enable, clock, clear_b, q);
   // input enable, clock and the reset signal
   input enable, clock, clear_b;
   // output 8 bit wire

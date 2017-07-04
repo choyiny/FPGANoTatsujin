@@ -1,6 +1,7 @@
 module datapath(
 	input [2:0] input_colour,
-	input [6:0] coords,
+	input [7:0] x_coords,
+	input [6:0] y_coords,
 	input [1:0] xOffset,
 	input [1:0] yOffset,
   input draw, // draw the square if 1, erase to black otherwise.
@@ -11,15 +12,8 @@ module datapath(
 	output[2:0] output_colour
 	);
 
-	// setup x coordinate
-	reg[7:0] x_coordinate;
-
-	always @ (posedge saveX) begin
-		x_coordinate <= {1'b0, coords};
-	end
-
-	assign finalY = {coords + yOffset};
-	assign finalX = {x_coordinate + xOffset};
+	assign finalY = {y_coords + yOffset};
+	assign finalX = {x_coords + xOffset};
 
 	// set color
   always @(*)
@@ -35,8 +29,7 @@ module datapath(
 endmodule
 
 /**
- * Output an xOffset and yOffset each clock cycle. In total, output 16 offset pairs.
- * Used along with datapath to draw a four by four square in VGA.
+ * Finite state machine to draw 4x4 square
  *
  * @input clk CLOCK_50 should be used.
  * @input resetn To stop datapath from continuing, and goto resting state
@@ -46,7 +39,7 @@ endmodule
  * @output yOffset of the square
  * @output plot signal to VGA to draw the square
  */
-module draw_four_by_four(
+module square4x4(
 	input clk,
 	input resetn,
 	input go,
