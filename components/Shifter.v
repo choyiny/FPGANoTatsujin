@@ -123,12 +123,12 @@ module shifter10Bit(load_val, in, shift, load_n, clock, reset_n, out);
   // outputs of bits
   wire [4:0] lower_5_out, upper_5_out;
   
-  assign out = {upper_5_out, lower_5_out};
+  assign out = {lower_5_out, upper_5_out};
   
   shifter5Bit upper(
     .load_val(load_val[9:5]),
     .in(in),
-    .clk(clock),
+    .clock(clock),
     .reset_n(reset_n),
     .shift(shift),
     .load_n(load_n),
@@ -138,11 +138,11 @@ module shifter10Bit(load_val, in, shift, load_n, clock, reset_n, out);
   shifter5Bit lower(
     .load_val(load_val[4:0]),
     .in(upper_5_out[0]),
-    .clk(clock),
+    .clock(clock),
     .reset_n(reset_n),
     .shift(shift),
     .load_n(load_n),
-    .out(upper_5_out)
+    .out(lower_5_out)
   );
 endmodule
 
@@ -159,7 +159,7 @@ module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
   // Left-most bit is bit 0, right most bit is bit 4
   wire bit_0_out, bit_1_out, bit_2_out, bit_3_out, bit_4_out;
   
-  assign out = {bit_0_out, bit_1_out, bit_2_out, bit_3_out, bit_4_out};
+  assign out = {bit_4_out, bit_3_out, bit_2_out, bit_1_out, bit_0_out};
   
   // Bits
   shifterBit bit_0(
