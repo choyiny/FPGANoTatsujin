@@ -149,6 +149,7 @@ module square10(
             draw <= YELLOW;
       end
       RESTING: starting_x = 7'd0;
+      default: starting_x = 7'd0;
     endcase
   end
 
