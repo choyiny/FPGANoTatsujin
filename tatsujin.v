@@ -1,7 +1,4 @@
-// Part 2 skeleton
-
-module tatsujin
-	(
+module project(
 		CLOCK_50,						//	On Board 50 MHz
 		// Your inputs and outputs here
     KEY,
@@ -68,6 +65,51 @@ module tatsujin
 
     // Instansiate datapath
 	// datapath d0(...);
+	
+	wire [7:0] start_x;
+	wire [6:0] start_y;
+	wire [2:0] the_color;
+	wire [1:0] x_offset, y_offset;
+	
+	datapath draw_a_square(.input_colour(the_colour),
+	                       .x_coords(start_x),
+								  .y_coords(start_y),
+								  .xOffset(x_offest),
+								  .yOffset(y_offset),
+								  .draw(1'b1),
+								  .saveX(1'b0),
+								  .finalX(x),
+								  .finalY(y),
+								  .output_colour(colour)
+								  );
+								  
+	square4x4 square_make(.clk(CLOCK_50),
+	                      .resetn(1'b0),
+								 .go(1'b1),
+								 .xOffset(x_offset),
+								 .yOffset(y_offset),
+								 .plot(writeEn)
+								 );
+	
+	rate_divider for_draw_10_square(.clock(CLOCK_50),
+	                                .divide_by(28'b10100000),
+											  .reset_b(1'b1),
+											  .out_signal(divided_clock)
+											  );
+											  
+	wire divided_clock;
+	wire dummy;
+	
+	square10 draw_10_squares(.red_sequence(10'b0110101010),
+	                         .yellow_sequence(10'b0000000000),
+									 
+									 .clk(divided_clock),
+									 .resetn(1'b0),
+									 .plot(dummy),
+									 .starting_x(start_x),
+									 .starting_y(start_y),
+									 .colour(the_colour)
+									 );
 
     // Instansiate FSM control
     // control c0(...);
