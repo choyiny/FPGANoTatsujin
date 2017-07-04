@@ -101,7 +101,6 @@ module project(
   square10 draw_10_squares(.red_sequence(10'b0110101010),
                            .yellow_sequence(10'b0000000000),
                            .clk(divided_clock),
-                           .plot(dummy),
                            .starting_x(start_x),
                            .starting_y(start_y),
                            .colour(the_colour)

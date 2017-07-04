@@ -8,7 +8,6 @@ module square10(
   // how fast the x,y coordinates should change.
   // this should not be faster than drawing the square (currently 4x4)
   input clk,
-  output plot,
 
   output reg [7:0] starting_x, // outputs the starting x coordinate for a square
   output [6:0] starting_y, // outputs the starting y coordinate for a square
@@ -59,9 +58,6 @@ module square10(
        default: next_state = RESTING;
     endcase
   end
-
-  // plot when state is not resting
-  assign plot = (current_state != RESTING);
 
   always@(*)
   begin: make_output
