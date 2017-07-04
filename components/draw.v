@@ -6,7 +6,7 @@ module datapath(
 	input [1:0] yOffset,
 	output[7:0] finalX,
 	output[6:0] finalY,
-	output reg [2:0] output_colour
+	output [2:0] output_colour
 	);
 
 	assign finalY = {y_coords + yOffset};
