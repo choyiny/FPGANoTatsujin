@@ -4,10 +4,10 @@
 module shifter100Bit(load_val, in, shift, load_n, clock, reset_n, out);
   input [99:0] load_val;
   input in, shift, load_n, reset_n;
-  input clockl
+  input clock;
   output [99:0] out;
   
-  wire out_0, out_1, out_2, out_3, out_4, out_5, out_6, out_7, out_8, out_9;
+  wire [9:0] out_0, out_1, out_2, out_3, out_4, out_5, out_6, out_7, out_8, out_9;
   
   assign out = {out_9, out_8, out_7, out_6, out_5, out_4, out_3, out_2, out_1, out_0};
   
@@ -121,7 +121,7 @@ module shifter10Bit(load_val, in, shift, load_n, clock, reset_n, out);
   output [9:0] out;
   
   // outputs of bits
-  wire lower_5_out, upper_5_out;
+  wire [4:0] lower_5_out, upper_5_out;
   
   assign out = {upper_5_out, lower_5_out};
   
@@ -132,7 +132,7 @@ module shifter10Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .reset_n(reset_n),
     .shift(shift),
     .load_n(load_n),
-    .out(upper_5_out);
+    .out(upper_5_out)
   );
   
   shifter5Bit lower(
@@ -142,7 +142,7 @@ module shifter10Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .reset_n(reset_n),
     .shift(shift),
     .load_n(load_n),
-    .out(upper_5_out);
+    .out(upper_5_out)
   );
 endmodule
 
@@ -169,7 +169,7 @@ module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .load_val(load_val[0]),
     .reset_n(reset_n),
     .shift(shift),
-    .load_n(load_n);
+    .load_n(load_n)
   );
   
   shifterBit bit_1(
@@ -179,7 +179,7 @@ module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .load_val(load_val[1]),
     .reset_n(reset_n),
     .shift(shift),
-    .load_n(load_n);
+    .load_n(load_n)
   );
   
   shifterBit bit_2(
@@ -189,7 +189,7 @@ module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .load_val(load_val[2]),
     .reset_n(reset_n),
     .shift(shift),
-    .load_n(load_n);
+    .load_n(load_n)
   );
   
   shifterBit bit_3(
@@ -199,7 +199,7 @@ module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .load_val(load_val[3]),
     .reset_n(reset_n),
     .shift(shift),
-    .load_n(load_n);
+    .load_n(load_n)
   );
   
   shifterBit bit_4(
@@ -209,7 +209,7 @@ module shifter5Bit(load_val, in, shift, load_n, clock, reset_n, out);
     .load_val(load_val[4]),
     .reset_n(reset_n),
     .shift(shift),
-    .load_n(load_n);
+    .load_n(load_n)
   );
 endmodule
 
