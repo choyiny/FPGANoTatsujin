@@ -9,7 +9,7 @@ module square10(
   // this should not be faster than drawing the square (currently 4x4)
   input clk,
   input resetn,
-  input plot,
+  output plot,
 
   output reg [7:0] starting_x, // outputs the starting x coordinate for a square
   output [6:0] starting_y, // outputs the starting y coordinate for a square
