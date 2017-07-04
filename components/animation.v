@@ -2,8 +2,8 @@
  * Finite state machine to draw 10 squares to the screen
  */
 module square10(
-  input [9:0] red_sequence; // this reads the first 10 bits of a shifter
-  input [9:0] yellow_sequence;
+  input [9:0] red_sequence, // this reads the first 10 bits of a shifter
+  input [9:0] yellow_sequence,
 
   // how fast the x,y coordinates should change.
   // this should not be faster than drawing the square (currently 4x4)
@@ -11,9 +11,9 @@ module square10(
   input resetn,
   input plot,
 
-  output [7:0] starting_x; // outputs the starting x coordinate for a square
-  output [6:0] starting_y; // outputs the starting y coordinate for a square
-  output [2:0] colour; // determines the colour (either draw or erase)
+  output reg [7:0] starting_x, // outputs the starting x coordinate for a square
+  output [6:0] starting_y, // outputs the starting y coordinate for a square
+  output [2:0] colour // determines the colour (either draw or erase)
 
   );
 
@@ -27,26 +27,19 @@ module square10(
   // BLUE = 4
   reg [3:0] draw;
 
-  localparam BLACK = 3'b000, RED = 3'b100, YELLOW, 3'b110, GREEN = 3'b010,
+  localparam BLACK = 3'b000,
+             RED = 3'b100,
+             YELLOW = 3'b110,
+             GREEN = 3'b010,
              BLUE = 3'b001;
 
-  // assign colour based on the draw register
-  assign @(*)
-    begin: change_colour
-      case (draw)
-        4'd0: colour = BLACK; // black
-        4'd1: colour = RED; // red
-        4'd2: colour = YELLOW; // yellow
-        4'd3: colour = GREEN; // green
-        4'd4: colour = BLUE; // blue
-        default: colour = BLUE; // default
-      endcase
-    end
+  // assign colour to draw
+  assign colour = draw;
 
   // Y will always stay constant
   assign starting_y = 7'b1110000;
 
-  localparam SQ1 = 6'd0, SQ2 = 6'd1, SQ2 = 6'd2, SQ3 = 6'd4, SQ4 = 6'd5,
+  localparam SQ1 = 6'd0, SQ2 = 6'd1, SQ3 = 6'd2, SQ4 = 6'd5,
              SQ5 = 6'd6, SQ6 = 6'd7, SQ7 = 6'd8, SQ8 = 6'd9, SQ9 = 6'd10,
              SQ10 = 6'd11, RESTING = 6'd12;
 
