@@ -4,7 +4,7 @@ Verilog Rhythm Game - CSCB58 Summer Computer Organization Project
 By: Cho Yin Yong, Austin Seto
 
 ## Description
-This is a rhythm game for FGPA boards in which four different kinds of notes are represented with four different buttons on the FGPA board. On a connected screen the notes are displayed as coloured streams, where each node as their own colour. Where black appears, the note is not to be played. Where a colour appears, the note is to be played. 
+This is a rhythm game for FGPA boards in which three different kinds of notes are represented with three different buttons on the FGPA board. On a connected screen the notes are displayed as coloured streams, where each note has their own colour. Where black appears, the note is not to be played. Where a colour appears, the note is to be played. Players gain points for playing a note at the right time, and lose points for playing a note at the wrong time.
 
 ## How it works
 
