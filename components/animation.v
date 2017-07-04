@@ -36,6 +36,7 @@ module square10(
         4'd2: colour = 3'b110; // yellow
         4'd3: colour = 3'b010; // green
         4'd4: colour = 3'b001; // blue
+        default: colour = 3'b001; // default
       endcase
     end
 
@@ -50,9 +51,7 @@ module square10(
   always @(posedge clk)
   begin: state_table
     case (current_state)
-       SQ1: begin
-        next_state = SQ2;
-       end
+       SQ1: next_state = SQ2;
        SQ2: next_state = SQ3;
        SQ3: next_state = SQ4;
        SQ4: next_state = SQ5;
