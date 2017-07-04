@@ -11,7 +11,7 @@ module rate_divider(clock, divide_by, out_signal, reset_b);
   input reset_b;
   output out_signal;
 
-  input [27:0] load_selectors; // 28 bit
+  input [27:0] divide_by; // 28 bit
   input clock;
 
   assign out_signal = (stored_value == 1'b0);
