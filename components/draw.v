@@ -4,8 +4,8 @@ module datapath(
 	input [6:0] y_coords,
 	input [1:0] xOffset,
 	input [1:0] yOffset,
-	output[7:0] finalX,
-	output[6:0] finalY,
+	output [7:0] finalX,
+	output [6:0] finalY,
 	output [2:0] output_colour
 	);
 
@@ -33,11 +33,16 @@ module square4x4(
 	input resetn,
 	input go,
 
-	output reg [1:0] xOffset,
-	output reg [1:0] yOffset,
+	output [1:0] xOffset,
+	output [1:0] yOffset,
 	output plot);
 
 	reg [5:0] current_state, next_state;
+	reg [1:0] xoff;
+	reg [1:0] yoff;
+
+	assign xOffset = xoff;
+	assign yOffset = yoff;
 
 	localparam 	P1      = 5'd0,
 				P2      = 5'd1,
@@ -89,72 +94,72 @@ module square4x4(
 	begin: make_output
 		case(current_state)
 			P1: begin
-				xOffset <= 2'b00;
-				yOffset <= 2'b00;
+				xoff <= 2'b00;
+				yoff <= 2'b00;
 				end
 			P2: begin
-				xOffset <= 2'b01;
-				yOffset <= 2'b00;
+				xoff <= 2'b01;
+				yoff <= 2'b00;
 				end
 			P3: begin
-				xOffset <= 2'b10;
-				yOffset <= 2'b00;
+				xoff <= 2'b10;
+				yoff <= 2'b00;
 				end
 			P4: begin
-				xOffset <= 2'b11;
-				yOffset <= 2'b00;
+				xoff <= 2'b11;
+				yoff <= 2'b00;
 				end
 			P5: begin
-				xOffset <= 2'b00;
-				yOffset <= 2'b01;
+				xoff <= 2'b00;
+				yoff <= 2'b01;
 				end
 			P6: begin
-				xOffset <= 2'b01;
-				yOffset <= 2'b01;
+				xoff <= 2'b01;
+				yoff <= 2'b01;
 				end
 			P7: begin
-				xOffset <= 2'b10;
-				yOffset <= 2'b01;
+				xoff <= 2'b10;
+				yoff <= 2'b01;
 				end
 			P8: begin
-				xOffset <= 2'b11;
-				yOffset <= 2'b01;
+				xoff <= 2'b11;
+				yoff <= 2'b01;
 				end
 			P9: begin
-				xOffset <= 2'b00;
-				yOffset <= 2'b10;
+				xoff <= 2'b00;
+				yoff <= 2'b10;
 				end
 			P10: begin
-				xOffset <= 2'b01;
-				yOffset <= 2'b10;
+				xoff <= 2'b01;
+				yoff <= 2'b10;
 				end
 			P11: begin
-				xOffset <= 2'b10;
-				yOffset <= 2'b10;
+				xoff <= 2'b10;
+				yoff <= 2'b10;
 				end
 			P12: begin
-				xOffset <= 2'b11;
-				yOffset <= 2'b10;
+				xoff <= 2'b11;
+				yoff <= 2'b10;
 				end
 			P13: begin
-				xOffset <= 2'b00;
-				yOffset <= 2'b11;
+				xoff <= 2'b00;
+				yoff <= 2'b11;
 				end
 			P14: begin
-				xOffset <= 2'b01;
-				yOffset <= 2'b11;
+				xoff <= 2'b01;
+				yoff <= 2'b11;
 				end
 			P15: begin
-				xOffset <= 2'b10;
-				yOffset <= 2'b11;
+				xoff <= 2'b10;
+				yoff <= 2'b11;
 				end
 			P16: begin
-				xOffset <= 2'b11;
-				yOffset <= 2'b11;
+				xoff <= 2'b11;
+				yoff <= 2'b11;
 				end
 			default: begin
-				xOffset <= 2'b00;
-				yOffset <= 2'b00;
+				xoff <= 2'b00;
+				yoff <= 2'b00;
 				end
 			endcase
 

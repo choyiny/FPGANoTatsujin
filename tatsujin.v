@@ -3,7 +3,6 @@ module project(
   // Your inputs and outputs here
     KEY,
     SW,
-    LEDR,
   // The ports below are for the VGA output.  Do not change.
   VGA_CLK,               //  VGA Clock
   VGA_HS,              //  VGA H_SYNC
@@ -67,16 +66,16 @@ module project(
   // Instansiate datapath
   // datapath d0(...);
 
-  wire [7:0] start_x = 8'b1010_0101;
-  wire [6:0] start_y = 7'b1010101;
+  wire [7:0] x2 = 8'b00100101;
+  wire [6:0] y2 = 7'b1010101;
   wire [2:0] the_color = 3'b100;
-  wire [1:0] x_offset, y_offset;
+  wire [1:0] xoff, yoff;
 
   datapath draw_a_square(.input_colour(the_colour),
-                         .x_coords(start_x),
-                         .y_coords(start_y),
-                         .xOffset(x_offest),
-                         .yOffset(y_offset),
+                         .x_coords(x2),
+                         .y_coords(y2),
+                         .xOffset(xoff),
+                         .yOffset(yoff),
                          .finalX(x),
                          .finalY(y),
                          .output_colour(colour)
@@ -85,8 +84,8 @@ module project(
   square4x4 square_make(.clk(CLOCK_50),
                         .resetn(KEY[0]),
                         .go(!KEY[1]),
-                        .xOffset(x_offset),
-                        .yOffset(y_offset),
+                        .xOffset(xoff),
+                        .yOffset(yoff),
                         .plot(writeEn)
    );
 
