@@ -9,7 +9,7 @@ module datapath(
 	input saveX,
 	output[7:0] finalX,
 	output[6:0] finalY,
-	output[2:0] output_colour
+	output reg [2:0] output_colour
 	);
 
 	assign finalY = {y_coords + yOffset};
@@ -20,10 +20,10 @@ module datapath(
   begin
     // use input colour if draw
     if (draw)
-      assign output_colour = input_colour[2:0];
+      output_colour <= input_colour[2:0];
     // erase to black otherwise
     else
-      assign ouput_colour = 3'b000;
+      output_colour <= 3'b000;
   end
 
 endmodule
