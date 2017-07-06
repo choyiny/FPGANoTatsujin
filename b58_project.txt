@@ -24,19 +24,21 @@ Project Description: A rhythm game where the player will try to press the FGPA b
 Video URL:
 
 Code URL (please upload a copy of this file to your repository at the end of the project as well, it will
-serve as a useful resource for future development):
+serve as a useful resource for future development): https://github.com/choyiny/CSCB58_Project/
 
+(this is set to a private repo until we have completed the project to prevent plagiarism)
 
 Proposal
 --------
 
 What do you plan to have completed by the end of the first lab session?:
-- Shifter bits with loading and reading for 100 bits
-- Timer to shift notes to simulate playing song
-- Counter to increase score
-- Have a working "animation" of a moving block
+- Shifter bits with loading and reading for 100 bits (unable)
+- Timer to shift notes to simulate playing song (unable)
+- Counter to increase score (not attempted)
+- Have a working "animation" of a moving block (unable)
 
 What do you plan to have completed by the end of the second lab session?:
+- finish a working animation of squares appearing on screen.
 - Output rhythm to VGA
 - Have score increase if buttons pressed in the right time
 - make script to generate rhythm bits
@@ -77,10 +79,4 @@ code).
 Updates
 -------
 
-<Example update. Delte this and add your own updates after each lab session>
-Week 1: We built the hardware and tested the sensors. The distance sensor we had intended to use didn't work as
-expected (wasn't precise enough at further distances, only seems to work accurately within 5-10cm), so instead
-we've decided to change the project to use a light sensor instead. Had trouble getting the FSM to work (kept
-getting stuck in state 101, took longer to debug than expected), so we may not be able to add the
-high score feature, have updated that in the project description as (optional).
-tim
+Week 1: We attempted to run our code in the FGPA board. Unfortunately the first half of the lab was dedicated to JTAG Chain Errors, and we ended up not being able to fully test our code. We implemented a verilog design of a schematic we drew to draw squares on the VGA module, but it wasn't fully working as intended. Since we weren't able to get anything significant working, we have currently lowered our goal to just process 1 type of squares in 1 horizontal line.
