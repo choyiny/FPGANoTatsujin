@@ -38,10 +38,8 @@ module pick_square(
     .clock(reset_counter), // This essentially makes the finite state machine clock run only every 17 ticks
     .notes(input_notes),
     .squareX(x_coordinate),
-    .ccolour(colour_wire)
+    .colour(colour_wire)
   );
-  
-  
 endmodule
 
 /**
