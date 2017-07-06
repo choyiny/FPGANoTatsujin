@@ -14,6 +14,9 @@ module pick_square(
           output [2:0] colour);
   
   wire [7:0] counter_value;
+  wire reset_counter;
+  assign reset_counter = (counter_value == 8'd16); // Reset counter when it gets to 16
+  
   counter ticks(
     .clock(clock),
     .q(counter_value),
@@ -21,23 +24,20 @@ module pick_square(
     .clear_b(reset_counter)
   );
   
-  wire reset_counter;
-  assign reset_counter = (counter_value == 8'd16); // Reset counter when it gets to 16
-  
   // Connecting wires
-  wire [7:0] x-coordinate;
-  assign squareX = x-coordinate;
+  wire [7:0] x_coordinate;
+  assign squareX = x_coordinate;
   wire [9:0] input_notes;
   assign input_notes = notes;
   wire [2:0] colour_wire;
   assign colour = colour_wire;
   
   // Finite state machine
-  pick_square_fsm(
+  pick_square_fsm square_picker(
     .go(clock), // Will always be running
     .clock(reset_counter), // This essentially makes the finite state machine clock run only every 17 ticks
     .notes(input_notes),
-    .squareX(x-coordinate),
+    .squareX(x_coordinate),
     .ccolour(colour_wire)
   );
   
@@ -88,7 +88,7 @@ module pick_square_fsm(
   
   // State transitions
   always @(posedge clock) begin: state_table
-    case (current_state):
+    case (current_state)
       P0: next_state = P1;
       P1: next_state = P2;
       P2: next_state = P3;
@@ -99,52 +99,52 @@ module pick_square_fsm(
       P7: next_state = P8;
       P8: next_state = P9;
       P9: next_state = RESTING;
-      RESTING: = go ? P0 : RESTING;
+      RESTING: next_state = go ? P0 : RESTING;
     endcase
-    
-    // Assign outputs
-    always @(*) begin: output_assignment
-      case (current_state):
-        P0: begin
-          curr_colour = notes[0] ? RED : BLACK;
-          coordinates <= initalX;
-          end
-        P1: begin
-          curr_colour = notes[1] ? RED : BLACK;
-          coordinates <= (initialX + squareOffset);
-          end
-        P2: begin
-          curr_colour = notes[2] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 2));
-          end
-        P3: begin
-          curr_colour = notes[3] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 3));
-          end
-        P4: begin
-          curr_colour = notes[4] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 4));
-          end
-        P5: begin
-          curr_colour = notes[5] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 5));
-          end
-        P6: begin
-          curr_colour = notes[6] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 6));
-          end
-        P7: begin
-          curr_colour = notes[7] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 7));
-          end
-        P8: begin
-          curr_colour = notes[8] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 8));
-          end
-        P9: begin
-          curr_colour = notes[9] ? RED : BLACK;
-          coordinates <= (initialX + (squareOffset * 9));
-          end
-      endcase
+  end  
+  // Assign outputs
+  always @(*) begin: output_assignment
+    case (current_state)
+      P0: begin
+        curr_colour = notes[0] ? RED : BLACK;
+        coordinates <= initalX;
+        end
+      P1: begin
+        curr_colour = notes[1] ? RED : BLACK;
+        coordinates <= (initialX + squareOffset);
+        end
+      P2: begin
+        curr_colour = notes[2] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 2));
+        end
+      P3: begin
+        curr_colour = notes[3] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 3));
+        end
+      P4: begin
+        curr_colour = notes[4] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 4));
+        end
+      P5: begin
+        curr_colour = notes[5] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 5));
+        end
+      P6: begin
+        curr_colour = notes[6] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 6));
+        end
+      P7: begin
+        curr_colour = notes[7] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 7));
+        end
+      P8: begin
+        curr_colour = notes[8] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 8));
+        end
+      P9: begin
+        curr_colour = notes[9] ? RED : BLACK;
+        coordinates <= (initialX + (squareOffset * 9));
+        end
+    endcase
   end
 endmodule
