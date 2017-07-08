@@ -1,3 +1,40 @@
+/**
+ * IMPORTANT: must wait 16 ticks before changing the x coordinates
+ **/
+module square4x4(
+  input clk, // please use CLOCK_50
+  input x_coords,
+  input y_coords,
+	input [2:0] input_colour,
+  output reg [7:0] finalX,
+  output reg [6:0] finalY,
+  output [2:0] output_colour
+  );
+	// init datapath
+  datapath draw_square(.input_colour(input_colour),
+	                     .x_coords(x_coords),
+											 .y_coords(y_coords),
+											 .xOffset(xoff),
+											 .yOffset(yoff),
+											 .finalX(finalX),
+											 .finalY(finalY),
+											 .output_colour(output_colour)
+											 );
+
+  wire [1:0] xoff;
+	wire [1:0] yoff;
+
+  // init FSM
+	control offset_calc(.clk(clk),
+	                    .resetn(1'b1),
+											.go(1'b1),
+											.xOffset(xoff),
+											.yOffset(yoff),
+											.plot(1'b1)
+											);
+
+endmodule
+
 module datapath(
 	input [2:0] input_colour,
 	input [7:0] x_coords,
@@ -29,7 +66,7 @@ endmodule
  * @output yOffset of the square
  * @output plot signal to VGA to draw the square
  */
-module square4x4(
+module control(
 	input clk,
 	input resetn,
 	input go,

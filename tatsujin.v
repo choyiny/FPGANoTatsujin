@@ -62,50 +62,15 @@ module project(
   defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
   defparam VGA.BACKGROUND_IMAGE = "black.mif";
 
+  wire [6:0] row = 7'b1010101;
 
-  // Instansiate datapath
-  // datapath d0(...);
-
-  wire [7:0] x2 = 8'b00100101;
-  wire [6:0] y2 = 7'b1010101;
-  wire [2:0] the_color = 3'b100;
-  wire [1:0] xoff, yoff;
-
-  datapath draw_a_square(.input_colour(the_colour),
-                         .x_coords(x2),
-                         .y_coords(y2),
-                         .xOffset(xoff),
-                         .yOffset(yoff),
-                         .finalX(x),
-                         .finalY(y),
-                         .output_colour(colour)
-    );
-
-  square4x4 square_make(.clk(CLOCK_50),
-                        .resetn(KEY[0]),
-                        .go(!KEY[1]),
-                        .xOffset(xoff),
-                        .yOffset(yoff),
-                        .plot(writeEn)
-   );
-
-  // rate_divider for_draw_10_square(.clock(CLOCK_50),
-  //                                 .divide_by(28'b0010111110101111000010000000),
-  //                                 .reset_b(1'b1),
-  //                                 .out_signal(divided_clock)
-  //                                 );
-  //
-  // wire divided_clock;
-  //
-  // // debug things
-  // LEDR[2] = divided_clock;
-  //
-  // square10 draw_10_squares(.red_sequence(10'b0110101010),
-  //                          .yellow_sequence(10'b0000000000),
-  //                          .clk(divided_clock),
-  //                          .starting_x(start_x),
-  //                          .starting_y(start_y),
-  //                          .colour(the_colour)
-  //                          );
+  // TODO: edit this
+  square4x4 draw(.clk(CLOCK_50),
+                 .x_coords(PUT_X_COORDINATE_WIRE),
+                 .y_coords(row),
+                 .input_colour(PUT_INPUT_COLOUR_WIRE),
+                 .finalX(x),
+                 .finalY(y),
+                 .output_colour(colour));
 
 endmodule
