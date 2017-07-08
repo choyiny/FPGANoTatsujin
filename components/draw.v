@@ -4,9 +4,10 @@ module datapath(
 	input [6:0] y_coords,
 	input [1:0] xOffset,
 	input [1:0] yOffset,
-	output [7:0] finalX,
-	output [6:0] finalY,
-	output [2:0] output_colour
+  input draw, // draw the square if 1, erase to black otherwise.
+	output reg [7:0] finalX,
+	output reg [6:0] finalY,
+	output[2:0] output_colour
 	);
 
 	assign finalY = {y_coords + yOffset};
