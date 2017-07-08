@@ -3,56 +3,62 @@
  **/
 module square4x4(
   input clk, // please use CLOCK_50
-  input x_coords,
-  input y_coords,
-	input [2:0] input_colour,
-  output reg [7:0] finalX,
-  output reg [6:0] finalY,
+  input [7:0] x_coords,
+  input [7:0] y_coords,
+  input [2:0] input_colour,
+  output [7:0] finalX,
+  output [6:0] finalY,
   output [2:0] output_colour
   );
-	// init datapath
+  // init datapath
   datapath draw_square(.input_colour(input_colour),
-	                     .x_coords(x_coords),
-											 .y_coords(y_coords),
-											 .xOffset(xoff),
-											 .yOffset(yoff),
-											 .finalX(finalX),
-											 .finalY(finalY),
-											 .output_colour(output_colour)
-											 );
+                       .x_coords(x_coords),
+                       .y_coords(y_coords),
+                       .xOffset(xoff),
+                       .yOffset(yoff),
+                       .finalX(finalX),
+                       .finalY(finalY),
+                       .output_colour(output_colour)
+                       );
 
   wire [1:0] xoff;
-	wire [1:0] yoff;
+  wire [1:0] yoff;
 
   // init FSM
-	control offset_calc(.clk(clk),
-	                    .resetn(1'b1),
-											.go(1'b1),
-											.xOffset(xoff),
-											.yOffset(yoff),
-											.plot(1'b1)
-											);
+  control offset_calc(.clk(clk),
+                      .resetn(1'b1),
+                      .go(1'b1),
+                      .xOffset(xoff),
+                      .yOffset(yoff),
+                      .plot(1'b1)
+                      );
 
 endmodule
 
 module datapath(
-	input [2:0] input_colour,
-	input [7:0] x_coords,
-	input [6:0] y_coords,
-	input [1:0] xOffset,
-	input [1:0] yOffset,
-  input draw, // draw the square if 1, erase to black otherwise.
-	output reg [7:0] finalX,
-	output reg [6:0] finalY,
-	output[2:0] output_colour
-	);
+        input [2:0] input_colour,
+        input [7:0] x_coords,
+        input [6:0] y_coords,
+        input [1:0] xOffset,
+        input [1:0] yOffset,
+        input draw, // draw the square if 1, erase to black otherwise.
+        output [7:0] finalX,
+        output [6:0] finalY,
+        output[2:0] output_colour
+        );
 
-	assign finalY = {y_coords + yOffset};
-	assign finalX = {x_coords + xOffset};
+  reg [6:0] y;
+  reg [7:0] x;
 
-	// set color
-	assign output_colour = input_colour[2:0];
+  always @(*) begin
+    x <= {x_coords + xOffset};
+    y <= {y_coords + yOffset};
+  end
+  assign finalY = y;
+  assign finalX = x;
 
+  // set color
+  assign output_colour = input_colour[2:0];
 endmodule
 
 /**
@@ -83,22 +89,22 @@ module control(
 	assign yOffset = yoff;
 
 	localparam 	P1      = 5'd0,
-				P2      = 5'd1,
-				P3      = 5'd2,
-				P4      = 5'd3,
-				P5      = 5'd4,
-				P6      = 5'd5,
-				P7      = 5'd6,
-				P8      = 5'd7,
-				P9      = 5'd8,
-				P10     = 5'd9,
-				P11     = 5'd10,
-				P12     = 5'd11,
-				P13     = 5'd12,
-				P14     = 5'd13,
-				P15     = 5'd14,
-				P16     = 5'd15,
-				RESTING = 5'd16;
+      				P2      = 5'd1,
+	      			P3      = 5'd2,
+		      		P4      = 5'd3,
+	      			P5      = 5'd4,
+		      		P6      = 5'd5,
+	      			P7      = 5'd6,
+      				P8      = 5'd7,
+      				P9      = 5'd8,
+       				P10     = 5'd9,
+      				P11     = 5'd10,
+	      			P12     = 5'd11,
+	      			P13     = 5'd12,
+	      			P14     = 5'd13,
+	      			P15     = 5'd14,
+	      			P16     = 5'd15,
+	      			RESTING = 5'd16;
 
 	always@(posedge clk)
 	begin: state_table
@@ -200,7 +206,6 @@ module control(
 				yoff <= 2'b00;
 				end
 			endcase
-
 	end
 
 	always@(posedge clk)
@@ -210,5 +215,4 @@ module control(
 		else
 			current_state <= next_state;
 	end
-
 endmodule
