@@ -4,12 +4,16 @@
 module square4x4(
   input clk, // please use CLOCK_50
   input [7:0] x_coords,
-  input [7:0] y_coords,
+	input [6:0] y_coords,
   input [2:0] input_colour,
   output [7:0] finalX,
   output [6:0] finalY,
   output [2:0] output_colour
   );
+
+  wire [1:0] xoff;
+  wire [1:0] yoff;
+
   // init datapath
   datapath draw_square(.input_colour(input_colour),
                        .x_coords(x_coords),
@@ -20,17 +24,13 @@ module square4x4(
                        .finalY(finalY),
                        .output_colour(output_colour)
                        );
-
-  wire [1:0] xoff;
-  wire [1:0] yoff;
-
+	
   // init FSM
   control offset_calc(.clk(clk),
                       .resetn(1'b1),
                       .go(1'b1),
                       .xOffset(xoff),
-                      .yOffset(yoff),
-                      .plot(1'b1)
+                      .yOffset(yoff)
                       );
 
 endmodule
