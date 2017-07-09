@@ -60,7 +60,7 @@ module project(
   defparam VGA.RESOLUTION = "160x120";
   defparam VGA.MONOCHROME = "FALSE";
   defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-  defparam VGA.BACKGROUND_IMAGE = "black.mif";
+  defparam VGA.BACKGROUND_IMAGE = "bg.mif";
 
   wire [6:0] row = 7'b1010101;
 
