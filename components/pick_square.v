@@ -61,16 +61,16 @@ module pick_square_fsm(
   
   // States
   localparam  RESTING = 5'd0,
-              S0 = 5'd1,
-              S1 = 5'd2,
-              S2 = 5'd3,
-              S3 = 5'd4,
-              S4 = 5'd5,
-              S5 = 5'd6,
-              S6 = 5'd7,
-              S7 = 5'd8,
-              S8 = 5'd9,
-              S9 = 5'd10;
+              P0 = 5'd1,
+              P1 = 5'd2,
+              P2 = 5'd3,
+              P3 = 5'd4,
+              P4 = 5'd5,
+              P5 = 5'd6,
+              P6 = 5'd7,
+              P7 = 5'd8,
+              P8 = 5'd9,
+              P9 = 5'd10;
   
   // Colour
   localparam RED = 3'b100,
