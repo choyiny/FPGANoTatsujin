@@ -9,6 +9,6 @@ module player_control(
           input [2:0] player_input,
           output increase_score,
           output decrease_score);
-  assign increase_score = (notes == player_input);
-  assign decrease_score = (notes != player_input);
+  assign increase_score = (notes == player_input) && (notes = 3'b111);
+  assign decrease_score = (notes != player_input) && (notes = 3'b000);
 endmodule

@@ -88,11 +88,13 @@ module tatsujin(
 
   wire increase_score, decrease_score;
 
+  // this sends increase or decrease signal
   player_control click_right({3{output_song[0]}},
-                             KEY[2:0],
+                             !(KEY[2:0]),
                              increase_score,
-                             decrease_score)
+                             decrease_score);
 
+  // this module holds the score
   wire [7:0] the_score;
   score_counter count_player_score(increase_score,
                                    decrease_score,
@@ -101,25 +103,24 @@ module tatsujin(
                                    the_score);
 
   wire slow_clock;
-
   assign LEDR[9:0] = output_song;
 
   seven_segment_display lo(the_score[3:0], HEX0);
   seven_segment_display hi(the_score[7:4], HEX1);
 
-  rate_divider slower_clock(clk, 28'b001011111010111100001000000, slow_clock, 1'b1);
+  rate_divider slower_clock(CLOCK_50, 28'b001011111010111100001000000, slow_clock, 1'b1);
 
 endmodule
 
-module noteshifter(output_song, clk);
+module noteshifter(output_song, slow_clk);
   output [9:0] output_song;
-  input clk;
+  input slow_clk;
 
   reg [99:0] song_reg = {50{2'b01}};
 
   assign output_song = song_reg[99:90];
 
-  always @ (negedge clk)
+  always @ (negedge slow_clk)
     song_reg <= song_reg << 1;
 
 endmodule
