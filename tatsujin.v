@@ -3,9 +3,9 @@ module tatsujin(
   // input
     KEY,
     SW,
-	 LEDR,
-	 HEX0,
-	 HEX1,
+   LEDR,
+   HEX0,
+   HEX1,
   // The ports below are for the VGA output.  Do not change.
   VGA_CLK,               //  VGA Clock
   VGA_HS,              //  VGA H_SYNC
@@ -63,10 +63,10 @@ module tatsujin(
     defparam VGA.BACKGROUND_IMAGE = "bg.mif";
 
   wire [6:0] row = 7'b0110101;
-  
+
   wire [7:0] x_wip;
-//  wire [2:0] colour_wip;
-  
+  wire [2:0] colour_wip;
+
   wire [99:0] song;
 
   square4x4 draw(.clk(CLOCK_50),
@@ -76,33 +76,48 @@ module tatsujin(
                  .finalX(x),
                  .finalY(y),
                  .output_colour(colour)
-					  );
+    );
 
   pick_square square_select(.notes(output_song),
                             .clock(CLOCK_50),
                             .squareX(x_wip),
                             .colour(colour_wip));
-							
-  wire [9:0] output_song;			
-  noteshifter shifter(output_song, CLOCK_50);
-  
-  assign LEDR[9:0] = output_song;
-			
+
+  wire [9:0] output_song;
+  noteshifter shifter(output_song, slow_clock);
+
+  wire increase_score, decrease_score;
+
+  player_control click_right({3{output_song[0]}},
+                             KEY[2:0],
+                             increase_score,
+                             decrease_score)
+
+  wire [7:0] the_score;
+  score_counter count_player_score(increase_score,
+                                   decrease_score,
+                                   1'b0,
+                                   slow_clock,
+                                   the_score);
+
+  wire slow_clock;
+
+  seven_segment_display lo(the_score[3:0], HEX0);
+  seven_segment_display hi(the_score[7:4], HEX1);
+
+  rate_divider slower_clock(clk, 28'b001011111010111100001000000, slow_clock, 1'b1);
+
 endmodule
 
 module noteshifter(output_song, clk);
   output [9:0] output_song;
   input clk;
-  
-  wire slow_clock;
-  
+
   reg [99:0] song_reg = {50{2'b01}};
-  
-  rate_divider slower_clock(clk, 28'b001011111010111100001000000, slow_clock, 1'b1);
-  
+
   assign output_song = song_reg[99:90];
-  
-  always @ (negedge slow_clock)
+
+  always @ (negedge clk)
     song_reg <= song_reg << 1;
 
 endmodule
