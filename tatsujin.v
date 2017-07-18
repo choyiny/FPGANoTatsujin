@@ -90,7 +90,7 @@ module tatsujin(
 
   // this sends increase or decrease signal
   player_control click_right({3{output_song[0]}},
-                             !(KEY[2:0]),
+                             ~(KEY[2:0]),
                              increase_score,
                              decrease_score);
 
@@ -104,11 +104,13 @@ module tatsujin(
 
   wire slow_clock;
   assign LEDR[9:0] = output_song;
+  assign LEDR[17] = slow_clock;
+  assign LEDR[16] = !(slow_clock);
 
   seven_segment_display lo(the_score[3:0], HEX0);
   seven_segment_display hi(the_score[7:4], HEX1);
 
-  rate_divider slower_clock(CLOCK_50, 28'b001011111010111100001000000, slow_clock, 1'b1);
+  rate_divider slower_clock(CLOCK_50, 28'b0001011111010111100001000000, slow_clock, 1'b1);
 
 endmodule
 
