@@ -102,6 +102,8 @@ module tatsujin(
 
   wire slow_clock;
 
+  assign LEDR[9:0] = output_song;
+
   seven_segment_display lo(the_score[3:0], HEX0);
   seven_segment_display hi(the_score[7:4], HEX1);
 
