@@ -2,9 +2,9 @@
  * Determines what square is being drawn and its colour
  */
 module square_info(
-  input [29:0] red_sequence, // Sequences are first 30 bits of shifters
-  input [29:0] yellow_sequence,
-  input [29:0] blue_sequence,
+  input [26:0] red_sequence, // Sequences are first 30 bits of shifters
+  input [26:0] yellow_sequence,
+  input [26:0] blue_sequence,
 
   // how fast the x,y coordinates should change.
   // this should not be faster than drawing the square (currently 4x4)
@@ -39,13 +39,14 @@ module square_info(
              start_y = 7'b0110101;
   
   localparam x_offset = 7'b0000101,
-             y_offset = 7'b0000101;
+             y_offset = 7'b0001011;
   
-  reg [6:0] curr_x, curr_y;
+  reg [7:0] curr_x;
+  reg [6:0] curr_y;
   
   // Assign co-ordinate outputs
   assign output_x = curr_x;
-  assign starting_y = curr_y;
+  assign output_y = curr_y;
 
   localparam Square1 = 6'd0, Square2 = 6'd1, Square3 = 6'd2,
              Square4 = 6'd3, Square5 = 6'd4, Square6 = 6'd5,
@@ -59,7 +60,7 @@ module square_info(
              Square28 = 6'd27, Square29 = 6'd28, Square30 = 6'd29,
              Row_Swap = 6'd30; // Row swap state is when rows are switched
   
-  assign swap_now = curr_square_state == Row_Swap;
+  assign swap_now = (curr_square_state == Row_Swap);
   
   localparam row1 = 2'd0, row2 = 2'd1, row3 = 2'd2;
   
@@ -67,9 +68,9 @@ module square_info(
   always @(posedge clk)
   begin: row_state_table
     case(curr_row_state) // Change row whenever we are in row swap state for square drawing
-      row1: curr_row_state = Row_Swap ? row2 : row1;
-      row2: curr_row_state = Row_Swap ? row3 : row2;
-      row3: curr_row_state = Row_Swap ? row1 : row3;
+      row1: curr_row_state = swap_now ? row2 : row1;
+      row2: curr_row_state = swap_now ? row3 : row2;
+      row3: curr_row_state = swap_now ? row1 : row3;
       default: curr_row_state = row1;
     endcase
     
@@ -100,10 +101,10 @@ module square_info(
       Square24: curr_square_state = Square25;
       Square25: curr_square_state = Square26;
       Square26: curr_square_state = Square27;
-      Square27: curr_square_state = Square28;
-      Square28: curr_square_state = Square29;
+      Square27: curr_square_state = Row_Swap;
+     /* Square28: curr_square_state = Square29;
       Square29: curr_square_state = Square30;
-      Square30: curr_square_state = Row_Swap;
+      Square30: curr_square_state = Row_Swap;*/ 
       Row_Swap: curr_square_state = Square1;
       default: curr_square_state = Square1;
     endcase
@@ -112,14 +113,23 @@ module square_info(
   always@(*)
   begin: make_coordinates
     // Coordinates determined by starting constant defined added with a multiple of the offset constant
-    curr_x = start_x + (x_offset * curr_square_state);
-    curr_y = start_y + (y_offset * curr_row_state);
-    // Colour is based on row
-    case(curr_row_state)
-      row1: curr_colour = RED;
-      row2: curr_colour = YELLOW;
-      row3: curr_colour = BLUE;
-      default: curr_colour = RED;
-    endcase
+	 if (curr_square_state != Row_Swap)
+	   begin
+		  // Pick square to draw in row
+        curr_x = {start_x + {x_offset * curr_square_state}};
+        curr_y = {start_y + {y_offset * curr_row_state}};
+		  case(curr_row_state) // Pick row to draw in
+          row1: curr_colour = red_sequence[curr_square_state] ? RED : BLACK;
+          row2: curr_colour = yellow_sequence[curr_square_state] ? YELLOW : BLACK;
+          row3: curr_colour = blue_sequence[curr_square_state] ? CYAN : BLACK;
+          default: curr_colour = WHITE;
+        endcase
+		end
+    else
+	   begin // when in between states draw a black square out of the main game screen
+        curr_x = 0;
+		  curr_y = 0;
+		  curr_colour = BLACK;
+		end
   end
 endmodule

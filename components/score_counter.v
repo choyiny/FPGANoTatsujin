@@ -12,7 +12,7 @@ module score_counter(
           input reset,
           input clk,
           output [7:0] score);
-  reg signed [7:0] storage;
+  reg [7:0] storage;
   assign score = storage;
   always @(posedge clk) begin
     if (reset)

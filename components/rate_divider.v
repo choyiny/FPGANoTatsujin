@@ -7,7 +7,7 @@
  * @output out_signal the output signal
  */
 module rate_divider(clock, divide_by, out_signal, reset_b);
-  reg [28:0] stored_value;
+  reg [27:0] stored_value;
   input reset_b;
   output out_signal;
 
@@ -20,8 +20,9 @@ module rate_divider(clock, divide_by, out_signal, reset_b);
   always @ (posedge clock)
     begin
       // reset
-      if (reset_b == 1'b0)
+      if (reset_b == 1'b0) begin
           stored_value <= 0;
+	      end
       // stored value is 0
       else if (stored_value == 1'b0)
         begin
@@ -33,6 +34,6 @@ module rate_divider(clock, divide_by, out_signal, reset_b);
         end
       // decrement by 1 if stored value is not 0
       else
-          stored_value = stored_value - 1'b1;
+          stored_value <= stored_value - 1'b1;
     end
 endmodule
