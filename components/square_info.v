@@ -2,9 +2,9 @@
  * Determines what square is being drawn and its colour
  */
 module square_info(
-  input [26:0] red_sequence, // Sequences are first 30 bits of shifters
-  input [26:0] yellow_sequence,
-  input [26:0] blue_sequence,
+  input [25:0] red_sequence, // Sequences are first 30 bits of shifters
+  input [25:0] yellow_sequence,
+  input [25:0] blue_sequence,
 
   // how fast the x,y coordinates should change.
   // this should not be faster than drawing the square (currently 4x4)
@@ -13,7 +13,6 @@ module square_info(
   output [7:0] output_x, // outputs the starting x coordinate for a square
   output [6:0] output_y, // outputs the starting y coordinate for a square
   output [2:0] colour // determines the colour (either draw or erase)
-
   );
 
   reg [6:0] curr_square_state, next_square_state,
@@ -100,9 +99,9 @@ module square_info(
       Square23: curr_square_state = Square24;
       Square24: curr_square_state = Square25;
       Square25: curr_square_state = Square26;
-      Square26: curr_square_state = Square27;
-      Square27: curr_square_state = Row_Swap;
-     /* Square28: curr_square_state = Square29;
+      Square26: curr_square_state = Row_Swap;
+     /* Square27: curr_square_state = Square28; // Extra squares
+      Square28: curr_square_state = Square29;
       Square29: curr_square_state = Square30;
       Square30: curr_square_state = Row_Swap;*/ 
       Row_Swap: curr_square_state = Square1;
@@ -128,7 +127,7 @@ module square_info(
     else
 	   begin // when in between states draw a black square out of the main game screen
         curr_x = 0;
-		  curr_y = 0;
+		    curr_y = 0;
 		  curr_colour = BLACK;
 		end
   end
