@@ -1,12 +1,16 @@
 module tatsujin(
-    CLOCK_50, //  On Board 50 MHz
+  CLOCK_50, //  On Board 50 MHz
   // input
-    KEY,
-    SW,
-   LEDR,
+  KEY,
+  SW,
+  LEDR,
 	LEDG,
-   HEX0,
-   HEX1,
+  HEX0,
+  HEX1,
+  HEX4,
+  HEX5,
+  HEX6,
+  HEX7,
   // The ports below are for the VGA output.  Do not change.
   VGA_CLK,               //  VGA Clock
   VGA_HS,              //  VGA H_SYNC
@@ -22,7 +26,7 @@ module tatsujin(
   input  [17:0]  SW;
   input  [3:0]  KEY;
   output [17:0] LEDR;
-  output [7:0]  HEX0, HEX1;
+  output [7:0]  HEX6, HEX7, HEX4, HEX5, HEX0, HEX1;
 
   // Do not change the following outputs
   output      VGA_CLK;           //  VGA Clock
@@ -133,19 +137,27 @@ module tatsujin(
                                    reset_counter,
                                    the_score);
 
-  wire slow_clock;
-  
   // displays the score to the screen
-  seven_segment_display lo(the_score[3:0], HEX0);
-  seven_segment_display hi(the_score[7:4], HEX1);
+  seven_segment_display lo(the_score[3:0], HEX6);
+  seven_segment_display hi(the_score[7:4], HEX7);
+
+  // module to calculate the combo.
+  wire [7:0] the_combo;
+  combo_counter count_player_combo(increase_score,
+                                   decrease_score,
+                                   reset_counter,
+                                   the_combo);
+
+  seven_segment_display combo_lo(the_combo[3:0], HEX0);
+  seven_segment_display combo_hi(the_combo[7:4], HEX1);
 
   // NOTE: (to self) this works!
   // controls the speed of the song
   // rate_divider speed_of_song(.clock(CLOCK_50),
   //                            .divide_by(28'b00010111110101111000000100000),
-	// 						               .out_signal(slow_clock),
-	// 							             .reset_b(1'b1));
-
+	// 						                .out_signal(slow_clock),
+	// 							              .reset_b(1'b1));
+  wire slow_clock;
   rate_divider_choose speed_of_song2(.clock(CLOCK_50),
                                      .load_selectors(SW[1:0]),
                                      .out_signal(slow_clock),
