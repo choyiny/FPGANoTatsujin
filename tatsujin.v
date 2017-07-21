@@ -1,12 +1,16 @@
 module tatsujin(
-    CLOCK_50, //  On Board 50 MHz
+  CLOCK_50, //  On Board 50 MHz
   // input
-    KEY,
-    SW,
-   LEDR,
-	LEDG,
-   HEX0,
-   HEX1,
+  KEY,
+  SW,
+  LEDR,
+  LEDG,
+  HEX0,
+  HEX1,
+  HEX4,
+  HEX5,
+  HEX6,
+  HEX7,
   // The ports below are for the VGA output.  Do not change.
   VGA_CLK,               //  VGA Clock
   VGA_HS,              //  VGA H_SYNC
@@ -95,11 +99,30 @@ module tatsujin(
   rate_divider drawing_clock(CLOCK_50, 28'b0000000000000000000000010011, draw_clock, 1'b1);
 
   wire [26:0] output_blue, output_red, output_yellow;
-  noteshifter shifter(output_blue, output_red, output_yellow, reset_counter);
 
+  wire [99:0] load_red, load_yellow, load_blue;
+  
+  // Note storage
+  note_storage notes(.output_blue(output_blue),
+                     .output_red(output_red),
+                     .output_yellow(output_yellow),
+                     .slow_clk(reset_counter),
+                     .load_n(!KEY[3]),
+                     .input_red(load_red),
+                     .input_yellow(load_yellow),
+                     .input_blue(load_blue));
+
+  // Song loader
+  wire [7:0] total_notes;
+  song_loader songs(.song_select(SW[3:0]),
+                    .output_red(load_red),
+                    .output_yellow(load_yellow),
+                    .output_blue(load_blue),
+                    .output_total_notes(total_notes));
+  
   wire increase_score, decrease_score;
 
-  // this sends increase or decrease signal
+  // this sends increase or decrease signal to score
   player_control click_right({output_red[26], output_yellow[26], output_blue[26]},
                              ~(KEY[2:0]), // 2 = red, 1 = yellow, 0 = blue
                              increase_score,
@@ -112,12 +135,12 @@ module tatsujin(
 
   // this module holds the score
   wire [7:0] the_score;
-  score_counter count_player_score(increase_score,
-                                   decrease_score,
-                                   1'b0,
-                                   reset_counter,
-                                   the_score);
-
+  score_counter count_player_score(.increase_score(increase_score),
+                                   .decrease_score(decrease_score),
+                                   .reset(!KEY[3]),
+                                   .clk(reset_counter),
+                                   .score(the_score));
+  
   wire slow_clock;
   
   wire [7:0] counter_value;
@@ -130,35 +153,15 @@ module tatsujin(
     .enable(1'b1),
     .clear_b(!reset_counter)
   );
-
-  seven_segment_display lo(the_score[3:0], HEX0);
-  seven_segment_display hi(the_score[7:4], HEX1);
+  // Display score to screen
+  seven_segment_display lo(the_score[3:0], HEX6);
+  seven_segment_display hi(the_score[7:4], HEX7);
+  
+  seven_segment_display lo(total_notes[3:0], HEX4);
+  seven_segment_display hi(total_notes[7:4], HEX5);
 
   rate_divider speed_of_song(.clock(CLOCK_50),
-                             .divide_by(28'b00010111110101111000000100000),
-							        .out_signal(slow_clock),
-								     .reset_b(1'b1));
-
-endmodule
-
-module noteshifter(output_blue, output_red, output_yellow, slow_clk);
-  output [26:0] output_blue, output_red, output_yellow;
-  input slow_clk;
-
-  reg [99:0] blue_reg = {25{4'b1010}};
-  reg [99:0] red_reg = {25{4'b1001}};
-  reg [99:0] yellow_reg = {20{5'b10010}};
-
-  assign output_red = red_reg[99:73];
-  assign output_blue = blue_reg[99:73];
-  assign output_yellow = yellow_reg[99:73];
-  
-  
-
-  always @ (posedge slow_clk) begin
-    blue_reg <= blue_reg << 1;
-	 red_reg <= red_reg << 1;
-	 yellow_reg <= yellow_reg << 1;
-  end
-
+                             .divide_by(28'b0010111110101111000000100000),
+                             .out_signal(slow_clock),
+                             .reset_b(1'b1));
 endmodule
