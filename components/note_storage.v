@@ -1,6 +1,6 @@
 `timescale 1ns/1ns
 
-module noteshifter(output_blue,
+module note_storage(output_blue,
                    output_red,
                    output_yellow,
                    slow_clk,
@@ -28,8 +28,8 @@ module noteshifter(output_blue,
       begin
         // Shift every register one note over on every clock tick
         blue_reg <= blue_reg << 1;
-	      red_reg <= red_reg << 1;
-	      yellow_reg <= yellow_reg << 1;
+        red_reg <= red_reg << 1;
+        yellow_reg <= yellow_reg << 1;
       end
     else // If loading a song in
       begin
