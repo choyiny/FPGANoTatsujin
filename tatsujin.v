@@ -70,6 +70,7 @@ module tatsujin(
 
   wire [99:0] song_loader;
 
+  // draws an individual square
   square4x4 draw(.clk(CLOCK_50),
                  .x_coords(x_wip),
                  .y_coords(y_wip),
@@ -79,10 +80,7 @@ module tatsujin(
                  .output_colour(colour)
     );
 
-  // pick_square square_select(.notes(output_song),
-  //                           .clock(CLOCK_50),
-  //                           .squareX(x_wip),
-  //                           .colour(colour_wip));
+  // outputs new x and y coordinates to draw all 3 rows
   square_info animation(.red_sequence(output_red),
                         .yellow_sequence(output_yellow),
                         .blue_sequence(output_blue),
@@ -90,12 +88,29 @@ module tatsujin(
                         .output_x(x_wip),
                         .output_y(y_wip),
                         .colour(colour_wip));
-  // 17 ticks clock
+
+  // above square_info will output a new x & y coordinate every 17 ticks
+  // note: 16 tick drawing, 1 tick buffer
   wire draw_clock;
   rate_divider drawing_clock(CLOCK_50, 28'b0000000000000000000000010011, draw_clock, 1'b1);
 
+
+  // This module will count to 2 and then output a signal to shift the notes
+  wire [7:0] counter_value;
+  wire reset_counter;
+  assign reset_counter = (counter_value == 8'd2); // Reset counter when it gets to 2
+
+  counter ticks(
+    .clock(slow_clock),
+    .q(counter_value),
+    .enable(1'b1),
+    .clear_b(!reset_counter)
+  );
+
+  // shifting the song by 1 every counter tick
   wire [25:0] output_blue, output_red, output_yellow;
   noteshifter shifter(output_blue, output_red, output_yellow, reset_counter);
+
 
   wire increase_score, decrease_score;
 
@@ -110,7 +125,7 @@ module tatsujin(
   assign LEDG[2] = output_yellow[25];
   assign LEDG[0] = output_blue[25];
 
-  // this module holds the score
+  // this module holds the score using the increase and decrease signals
   wire [7:0] the_score;
   score_counter count_player_score(increase_score,
                                    decrease_score,
@@ -119,25 +134,22 @@ module tatsujin(
                                    the_score);
 
   wire slow_clock;
-
-  wire [7:0] counter_value;
-  wire reset_counter;
-  assign reset_counter = (counter_value == 8'd2); // Reset counter when it gets to 2
-
-  counter ticks(
-    .clock(slow_clock),
-    .q(counter_value),
-    .enable(1'b1),
-    .clear_b(!reset_counter)
-  );
-
+  
+  // displays the score to the screen
   seven_segment_display lo(the_score[3:0], HEX0);
   seven_segment_display hi(the_score[7:4], HEX1);
 
-  rate_divider speed_of_song(.clock(CLOCK_50),
-                             .divide_by(28'b00010111110101111000000100000),
-							        .out_signal(slow_clock),
-								     .reset_b(1'b1));
+  // NOTE: (to self) this works!
+  // controls the speed of the song
+  // rate_divider speed_of_song(.clock(CLOCK_50),
+  //                            .divide_by(28'b00010111110101111000000100000),
+	// 						               .out_signal(slow_clock),
+	// 							             .reset_b(1'b1));
+
+  rate_divider_choose speed_of_song2(.clock(CLOCK_50),
+                                     .load_selectors(SW[1:0]),
+                                     .out_signal(slow_clock),
+                                     .reset_b(1'b1));
 
 endmodule
 
@@ -145,9 +157,9 @@ module noteshifter(output_blue, output_red, output_yellow, slow_clk);
   output [25:0] output_blue, output_red, output_yellow;
   input slow_clk;
 
-  reg [99:0] blue_reg = {25{4'b1010}};
-  reg [99:0] red_reg = {25{4'b1001}};
-  reg [99:0] yellow_reg = {20{5'b10010}};
+  reg [99:0] blue_reg =   {100'b0000000000000101001000010000100101010101000101011001010110010010100100100001001001001000101010010101};
+  reg [99:0] red_reg =    {100'b0000000000000010010010000100000100010001010100011110000011000101000001001000100001000010100100100001};
+  reg [99:0] yellow_reg = {100'b0000000000000100010010001001000100010000111010111111110001010100100010010000100100011100010000010111};
 
   assign output_red = red_reg[99:75];
   assign output_blue = blue_reg[99:75];
