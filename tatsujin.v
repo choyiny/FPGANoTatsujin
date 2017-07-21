@@ -23,7 +23,7 @@ module tatsujin(
   input  [3:0]  KEY;
   output [17:0] LEDR;
   output [7:0]  HEX0, HEX1;
-  
+
   // Do not change the following outputs
   output      VGA_CLK;           //  VGA Clock
   output      VGA_HS;          //  VGA H_SYNC
@@ -94,21 +94,21 @@ module tatsujin(
   wire draw_clock;
   rate_divider drawing_clock(CLOCK_50, 28'b0000000000000000000000010011, draw_clock, 1'b1);
 
-  wire [26:0] output_blue, output_red, output_yellow;
+  wire [25:0] output_blue, output_red, output_yellow;
   noteshifter shifter(output_blue, output_red, output_yellow, reset_counter);
 
   wire increase_score, decrease_score;
 
   // this sends increase or decrease signal
-  player_control click_right({output_red[26], output_yellow[26], output_blue[26]},
+  player_control click_right({output_red[25], output_yellow[25], output_blue[25]},
                              ~(KEY[2:0]), // 2 = red, 1 = yellow, 0 = blue
                              increase_score,
                              decrease_score);
-	
- 	  
-  assign LEDG[4] = output_red[26];
-  assign LEDG[2] = output_yellow[26];
-  assign LEDG[0] = output_blue[26];
+
+
+  assign LEDG[4] = output_red[25];
+  assign LEDG[2] = output_yellow[25];
+  assign LEDG[0] = output_blue[25];
 
   // this module holds the score
   wire [7:0] the_score;
@@ -119,11 +119,11 @@ module tatsujin(
                                    the_score);
 
   wire slow_clock;
-  
+
   wire [7:0] counter_value;
   wire reset_counter;
   assign reset_counter = (counter_value == 8'd2); // Reset counter when it gets to 2
-  
+
   counter ticks(
     .clock(slow_clock),
     .q(counter_value),
@@ -142,18 +142,18 @@ module tatsujin(
 endmodule
 
 module noteshifter(output_blue, output_red, output_yellow, slow_clk);
-  output [26:0] output_blue, output_red, output_yellow;
+  output [25:0] output_blue, output_red, output_yellow;
   input slow_clk;
 
   reg [99:0] blue_reg = {25{4'b1010}};
   reg [99:0] red_reg = {25{4'b1001}};
   reg [99:0] yellow_reg = {20{5'b10010}};
 
-  assign output_red = red_reg[99:73];
-  assign output_blue = blue_reg[99:73];
-  assign output_yellow = yellow_reg[99:73];
-  
-  
+  assign output_red = red_reg[99:75];
+  assign output_blue = blue_reg[99:75];
+  assign output_yellow = yellow_reg[99:75];
+
+
 
   always @ (posedge slow_clk) begin
     blue_reg <= blue_reg << 1;
