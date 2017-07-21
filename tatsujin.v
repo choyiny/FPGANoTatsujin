@@ -4,7 +4,7 @@ module tatsujin(
   KEY,
   SW,
   LEDR,
-  LEDG,
+	LEDG,
   HEX0,
   HEX1,
   HEX4,
@@ -26,8 +26,8 @@ module tatsujin(
   input  [17:0]  SW;
   input  [3:0]  KEY;
   output [17:0] LEDR;
-  output [7:0]  HEX0, HEX1;
-  
+  output [7:0]  HEX6, HEX7, HEX4, HEX5, HEX0, HEX1;
+
   // Do not change the following outputs
   output      VGA_CLK;           //  VGA Clock
   output      VGA_HS;          //  VGA H_SYNC
@@ -74,6 +74,7 @@ module tatsujin(
 
   wire [99:0] song_loader;
 
+  // draws an individual square
   square4x4 draw(.clk(CLOCK_50),
                  .x_coords(x_wip),
                  .y_coords(y_wip),
@@ -83,10 +84,7 @@ module tatsujin(
                  .output_colour(colour)
     );
 
-  // pick_square square_select(.notes(output_song),
-  //                           .clock(CLOCK_50),
-  //                           .squareX(x_wip),
-  //                           .colour(colour_wip));
+  // outputs new x and y coordinates to draw all 3 rows
   square_info animation(.red_sequence(output_red),
                         .yellow_sequence(output_yellow),
                         .blue_sequence(output_blue),
@@ -94,11 +92,11 @@ module tatsujin(
                         .output_x(x_wip),
                         .output_y(y_wip),
                         .colour(colour_wip));
-  // 17 ticks clock
+
+  // above square_info will output a new x & y coordinate every 17 ticks
+  // note: 16 tick drawing, 1 tick buffer
   wire draw_clock;
   rate_divider drawing_clock(CLOCK_50, 28'b0000000000000000000000010011, draw_clock, 1'b1);
-
-  wire [26:0] output_blue, output_red, output_yellow;
 
   wire [99:0] load_red, load_yellow, load_blue;
   
@@ -122,26 +120,27 @@ module tatsujin(
   
   wire increase_score, decrease_score;
 
-  // this sends increase or decrease signal to score
-  player_control click_right({output_red[26], output_yellow[26], output_blue[26]},
+  // shifting the song by 1 every counter tick
+  wire [25:0] output_blue, output_red, output_yellow;
+
+  // this sends increase or decrease signal
+  player_control click_right({output_red[25], output_yellow[25], output_blue[25]},
                              ~(KEY[2:0]), // 2 = red, 1 = yellow, 0 = blue
                              increase_score,
                              decrease_score);
-	
- 	  
-  assign LEDG[4] = output_red[26];
-  assign LEDG[2] = output_yellow[26];
-  assign LEDG[0] = output_blue[26];
 
-  // this module holds the score
+
+  assign LEDG[4] = output_red[25];
+  assign LEDG[2] = output_yellow[25];
+  assign LEDG[0] = output_blue[25];
+
+  // this module holds the score using the increase and decrease signals
   wire [7:0] the_score;
   score_counter count_player_score(.increase_score(increase_score),
                                    .decrease_score(decrease_score),
                                    .reset(!KEY[3]),
                                    .clk(reset_counter),
                                    .score(the_score));
-  
-  wire slow_clock;
   
   wire [7:0] counter_value;
   wire reset_counter;
@@ -160,8 +159,25 @@ module tatsujin(
   seven_segment_display lo(total_notes[3:0], HEX4);
   seven_segment_display hi(total_notes[7:4], HEX5);
 
-  rate_divider speed_of_song(.clock(CLOCK_50),
-                             .divide_by(28'b0010111110101111000000100000),
-                             .out_signal(slow_clock),
-                             .reset_b(1'b1));
+  // module to calculate the combo.
+  wire [7:0] the_combo;
+  combo_counter count_player_combo(increase_score,
+                                   decrease_score,
+                                   reset_counter,
+                                   the_combo);
+
+  seven_segment_display combo_lo(the_combo[3:0], HEX0);
+  seven_segment_display combo_hi(the_combo[7:4], HEX1);
+
+  // NOTE: (to self) this works!
+  // controls the speed of the song
+  // rate_divider speed_of_song(.clock(CLOCK_50),
+  //                            .divide_by(28'b00010111110101111000000100000),
+	// 						                .out_signal(slow_clock),
+	// 							              .reset_b(1'b1));
+  wire slow_clock;
+  rate_divider_choose speed_of_song2(.clock(CLOCK_50),
+                                     .load_selectors(SW[1:0]),
+                                     .out_signal(slow_clock),
+                                     .reset_b(1'b1));
 endmodule
