@@ -4,7 +4,7 @@ module tatsujin(
   KEY,
   SW,
   LEDR,
-	LEDG,
+  LEDG,
   HEX0,
   HEX1,
   HEX4,
@@ -66,7 +66,7 @@ module tatsujin(
     defparam VGA.RESOLUTION = "160x120";
     defparam VGA.MONOCHROME = "FALSE";
     defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-    defparam VGA.BACKGROUND_IMAGE = "bg.mif";
+    defparam VGA.BACKGROUND_IMAGE = "background.mif";
 
   wire [6:0] y_wip;
   wire [7:0] x_wip;
@@ -177,7 +177,7 @@ module tatsujin(
 	// 							              .reset_b(1'b1));
   wire slow_clock;
   rate_divider_choose speed_of_song2(.clock(CLOCK_50),
-                                     .load_selectors(SW[1:0]),
+                                     .load_selectors(SW[17:16]),
                                      .out_signal(slow_clock),
                                      .reset_b(1'b1));
 endmodule
