@@ -112,7 +112,7 @@ module tatsujin(
 
   // Song loader
   wire [7:0] total_notes;
-  song_loader songs(.song_select(SW[3:0]),
+  song_loader songs(.song_select(SW[4:0]),
                     .output_red(load_red),
                     .output_yellow(load_yellow),
                     .output_blue(load_blue),
@@ -153,11 +153,11 @@ module tatsujin(
     .clear_b(!reset_counter)
   );
   // Display score to screen
-  seven_segment_display lo(the_score[3:0], HEX6);
-  seven_segment_display hi(the_score[7:4], HEX7);
+  seven_segment_display score_lo(the_score[3:0], HEX6);
+  seven_segment_display score_hi(the_score[7:4], HEX7);
   
-  seven_segment_display lo(total_notes[3:0], HEX4);
-  seven_segment_display hi(total_notes[7:4], HEX5);
+  seven_segment_display total_lo(total_notes[3:0], HEX4);
+  seven_segment_display total_hi(total_notes[7:4], HEX5);
 
   // module to calculate the combo.
   wire [7:0] the_combo;

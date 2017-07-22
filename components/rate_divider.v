@@ -26,13 +26,13 @@ module rate_divider_choose(clock, load_selectors, out_signal, reset_b);
       else if (stored_value == 1'b0)
         begin
           if (load_selectors == 2'b11)
-              stored_value <= 28'b00010111110101111000100010000; // slowest
+              stored_value <= 28'b00010011000101111000100010000; // slowest
           else if (load_selectors == 2'b10)
-              stored_value <= 28'b00010111110101111110000100000; // slower
+              stored_value <= 28'b00010111000101111110000100000; // slower
           else if (load_selectors == 2'b01)
-              stored_value <= 28'b0001011111011111110000100000; // normal
+              stored_value <= 28'b0001011111010100000010000000; // normal
           else
-              stored_value <= 28'b0001011111010100000010000000; // insane
+              stored_value <= 28'b0001000000010100000010000000; // insane
         end
       // stored value is not 0
       else

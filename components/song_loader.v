@@ -8,8 +8,8 @@ module song_loader(song_select, output_red, output_blue, output_yellow, output_t
   reg [7:0] total_notes;
   assign output_total_notes = total_notes;
 
-  localparam Take_on_Me = 4'b0011, // Songs available
-             Through_The_Fire_and_Flames = 4'b1111;
+  localparam Take_on_Me = 5'b00011, // Songs available
+             Through_The_Fire_and_Flames = 5'b11111;
   
   reg [99:0] red, blue, yellow;
   
@@ -21,14 +21,14 @@ module song_loader(song_select, output_red, output_blue, output_yellow, output_t
   begin
     case (song_select[4:0])
       // More cases to be added in future, each case is its own song
-      case Through_The_Fire_and_Flames:
+      Through_The_Fire_and_Flames:
         begin
           red    <= 100'b0000000000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010;
           yellow <= 100'b0000000000010001000100010001000100010001000100010001000100010001000100010001000100010001000100010001;
           blue   <= 100'b0000000000000100010001000100010001000100010001000100010001000100010001000100010001000100010001000100;
           total_notes <= 8'd90;
         end
-      case Take_on_Me:
+      Take_on_Me:
         begin
           red    <= 100'b0000000000000000000001010101010101010000000000000000010101010000000000000000010101010000000000000000;
           yellow <= 100'b0000000000111111111100000000000000000101010001010101000000000101000001010101000000000000000000000000;

@@ -120,7 +120,7 @@ module square_info(
 		  case(curr_row_state) // Pick row to draw in
           row1: curr_colour = red_sequence[curr_square_state] ? RED : BLACK;
           row2: curr_colour = yellow_sequence[curr_square_state] ? YELLOW : BLACK;
-          row3: curr_colour = blue_sequence[curr_square_state] ? CYAN : BLACK;
+          row3: curr_colour = blue_sequence[curr_square_state] ? BLUE : BLACK;
           default: curr_colour = WHITE;
         endcase
 		end
