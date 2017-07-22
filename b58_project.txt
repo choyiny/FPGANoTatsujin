@@ -77,6 +77,7 @@ Provide a complete list of any external resources your project used (attribution
 code).  
 
 - VGA Module from CSCB58 Summer 2017 Lab 6 Part 2
+- http://www.eecg.utoronto.ca/~jayar/ece241_08F/vga/vga-download.html (Converting BMP to MIF)
 
 Updates
 -------
@@ -88,3 +89,5 @@ Week 2:  We found some errors in our connections preventing us from drawing prop
 Week 3: We successfully made a module that kept track of the score, and output more squares to the screen. Now we have three rows of squares moving from left to right independently. Players have to press KEY[2:0] according to what is displayed on the screen. We have a working animation, and although the bits still sometimes shift 2 at a time (we still do not know what caused it - everything works fine on a manual clock with SW[17]), somehow it magically worked at the last minute. We suspect that CLOCK_50 on some boards have incompatibility.
 
 However, due to time constraints, and there weren't any digital speakers, we must give up on using the speakers with this project. This doesn't decrease the coolness of our project as it is still very exciting to play the game (we've playtested a bit, it was very intense)
+
+Extra Labs: Added many new features and fix all bugs. A song selector with multiple songs to load, a speed selector for difficulty, a counter to display current score and the combo, and a display for the highest possible score. A background to make what to click easier. Things went very smoothly.
