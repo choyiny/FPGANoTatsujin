@@ -11,7 +11,7 @@ This is a game inspired by Tatsujin No Taiko and Guitar Hero, rhythm games that 
 ## How to play?
 3 rows of square move from left to right. When it reaches the end of the box, click the KEY associated with the colour of the square.
 
-* SW[0] - CYAN
+* SW[0] - BLUE
 * SW[1] - YELLOW
 * SW[2] - RED
 
@@ -19,7 +19,7 @@ If you are unable to follow the VGA screen, or the VGA screen is not available, 
 
 **Scoring System**
 
-Getting a column correct will earn you +1 point, and wrong will earn you +0 points. An empty column is worth 0 points.
+Getting a column correct will earn you +1 point, and wrong will make you lose a point. An empty column is worth 0 points.
 
 * HEX5/6 displays your score
 * HEX3/4 displays the highest possible score
@@ -78,6 +78,7 @@ Here are some ideas we never got to execute that are interesting.
 * Make squares smoothly run through the screen.
 * Store songs in ram, because ram is pretty cool.
 * Make it multiplayer (on the same keyboard), because multiplayer is more intersting than singleplayer.
+* Couple with a [Note Map Tool](https://github.com/AustinSeto/Note-Map-Tool) to help people make songs.
 
 ## Acknowledgements
 * The VGA Module is taken from Lab 6 of this course: http://www.utsc.utoronto.ca/~bharrington/cscb58/labs.shtml
