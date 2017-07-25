@@ -37,9 +37,12 @@ Controlled by SW[17:16]
 **Song**
 
 Controlled by SW[4:0]
-* Through The Fire and Flames (Austin says it's harder)
-* Take on Me (easier)
-
+Song Name | Author
+--- | ---
+Through The Fire and Flames | Austin Seto
+Take on Me | Austin Seto
+Vlad Bit | Vladimir Efimov
+Brian This Project Is Worth Full Marks | Cho Yin Yong
 
 ## Structure
 In case you are the awesome few that wants to expand on this project, here is how we structured our project.
