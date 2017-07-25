@@ -3,7 +3,9 @@ FPGA no Tatsujin - CSCB58 Summer Computer Organization Project
 
 By: Cho Yin Yong, Austin Seto
 
-## Description
+<img src="https://raw.githubusercontent.com/choyiny/FPGANoTatsujin/master/namedBackground.bmp" width="500">
+
+
 This is a game inspired by Tatsujin No Taiko and Guitar Hero, rhythm games that are very popular. We recreated a rhythm game from hardware principles.
 
 ## How to play?
