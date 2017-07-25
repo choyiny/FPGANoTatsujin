@@ -1,3 +1,9 @@
+/**
+ * CSCB58 Computer Organization
+ * FPGA No Tatsujin
+ * Created by Austin Seto, Cho Yin Yong
+ * 25 Jul 2017
+ */
 module tatsujin(
   CLOCK_50, //  On Board 50 MHz
   // input
@@ -99,7 +105,7 @@ module tatsujin(
   rate_divider drawing_clock(CLOCK_50, 28'b0000000000000000000000010011, draw_clock, 1'b1);
 
   wire [99:0] load_red, load_yellow, load_blue;
-  
+
   // Note storage
   note_storage notes(.output_blue(output_blue),
                      .output_red(output_red),
@@ -117,7 +123,7 @@ module tatsujin(
                     .output_yellow(load_yellow),
                     .output_blue(load_blue),
                     .output_total_notes(total_notes));
-  
+
   wire increase_score, decrease_score;
 
   // shifting the song by 1 every counter tick
@@ -141,11 +147,11 @@ module tatsujin(
                                    .reset(!KEY[3]),
                                    .clk(reset_counter),
                                    .score(the_score));
-  
+
   wire [7:0] counter_value;
   wire reset_counter;
   assign reset_counter = (counter_value == 8'd2); // Reset counter when it gets to 2
-  
+
   counter ticks(
     .clock(slow_clock),
     .q(counter_value),
@@ -155,7 +161,7 @@ module tatsujin(
   // Display score to screen
   seven_segment_display score_lo(the_score[3:0], HEX6);
   seven_segment_display score_hi(the_score[7:4], HEX7);
-  
+
   seven_segment_display total_lo(total_notes[3:0], HEX4);
   seven_segment_display total_hi(total_notes[7:4], HEX5);
 
