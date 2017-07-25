@@ -37,6 +37,7 @@ Controlled by SW[17:16]
 **Song**
 
 Controlled by SW[4:0]
+
 Song Name | Author
 --- | ---
 Through The Fire and Flames | Austin Seto
