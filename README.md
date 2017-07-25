@@ -40,12 +40,13 @@ Controlled by SW[17:16]
 
 Controlled by SW[4:0]
 
-Song Name | Author
---- | ---
-Through The Fire and Flames | Austin Seto
-Take on Me | Austin Seto
-Vlad Bit | Vladimir Efimov
-Brian This Project Is Worth Full Marks | Cho Yin Yong
+Song Name | Author | Setting
+--- | --- | ---
+Through The Fire and Flames | Austin Seto | 11111
+Take on Me | Austin Seto | 00011
+Vlad Bit | Vladimir Efimov | 01010
+Brian This Project Is Worth Full Marks | Cho Yin Yong | 10111
+Rick Roll | Austin Seto | 00101
 
 ## Structure
 In case you are the awesome few that wants to expand on this project, here is how we structured our project.
