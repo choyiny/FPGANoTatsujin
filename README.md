@@ -38,7 +38,7 @@ Controlled by SW[17:16]
 
 **Song**
 
-Controlled by SW[4:0]
+Controlled by SW[4:0], use KEY[3] to load.
 
 Song Name | Author | Setting
 --- | --- | ---
