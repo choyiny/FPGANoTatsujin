@@ -6,7 +6,7 @@ By: Cho Yin Yong, Austin Seto
 <img src="https://raw.githubusercontent.com/choyiny/FPGANoTatsujin/master/Tatsujin.png" width="500">
 
 
-This is a game inspired by Tatsujin No Taiko and Guitar Hero, rhythm games that are very popular. We recreated a rhythm game from hardware principles.
+This is a game inspired by Taiko No Tatsujin (lit. Taiko Master) and Guitar Hero, rhythm games that are very popular. We recreated a rhythm game from hardware principles.
 
 ## How to play?
 Load a song from the Song section below. Click KEY[3] to start the game or restart the game. 3 rows of square move from left to right. When it reaches the end of the box, hold the KEY associated with the colour of the square for the entire duration.
