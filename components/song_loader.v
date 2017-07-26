@@ -1,5 +1,6 @@
-`timescale 1ns/1ns
-
+/**
+ * Module to load song to the respective color registers along with note_storage.v
+ */
 module song_loader(song_select, output_red, output_blue, output_yellow, output_total_notes);
   input [4:0] song_select;
   output [99:0] output_red, output_blue, output_yellow;
@@ -8,9 +9,10 @@ module song_loader(song_select, output_red, output_blue, output_yellow, output_t
   reg [7:0] total_notes;
   assign output_total_notes = total_notes;
 
-  localparam Take_on_Me = 5'b00011, // Songs available
-             Through_The_Fire_and_Flames = 5'b11111;
-             Vlad_Bit = 5'b01010
+  // songs available
+  localparam Take_on_Me = 5'b00011,
+             Through_The_Fire_and_Flames = 5'b11111,
+             Vlad_Bit = 5'b01010, // thanks, vlad.
              Brian_This_Project_Is_Worth_Full_Marks = 5'b10111;
 
 
@@ -20,10 +22,10 @@ module song_loader(song_select, output_red, output_blue, output_yellow, output_t
   assign output_blue = blue;
   assign output_yellow = yellow;
 
+  // Songs to switch to
   always @(*)
   begin
     case (song_select[4:0])
-      // More cases to be added in future, each case is its own song
       Through_The_Fire_and_Flames:
         begin
           red    <= 100'b0000000000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010;

@@ -2,7 +2,6 @@
  * Rate divider given a CLOCK_50
  * @input clock to be used
  * @input load_selectors select at which rate the rate divider should output
- * @input divide_by 28 bits to countdown
  * @input reset_b a synchronous reset for the rate divider
  * @output out_signal the output signal
  */

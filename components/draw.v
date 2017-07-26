@@ -1,5 +1,7 @@
 /**
  * IMPORTANT: must wait 16 ticks before changing the x coordinates
+ * Below module combines datapath with FSM to output x and y coordinates for
+ * a 4x4 square.
  **/
 module square4x4(
   input clk, // please use CLOCK_50
@@ -24,7 +26,7 @@ module square4x4(
                        .finalY(finalY),
                        .output_colour(output_colour)
                        );
-	
+
   // init FSM
   control offset_calc(.clk(clk),
                       .resetn(1'b1),
@@ -35,6 +37,9 @@ module square4x4(
 
 endmodule
 
+/**
+ * Datapath to draw a square
+ */
 module datapath(
         input [2:0] input_colour,
         input [7:0] x_coords,

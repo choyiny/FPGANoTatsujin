@@ -1,5 +1,8 @@
 `timescale 1ns/1ns
 
+/**
+ * This module stores the notes in the respective shift registers.
+ */
 module note_storage(output_blue,
                    output_red,
                    output_yellow,
@@ -11,7 +14,7 @@ module note_storage(output_blue,
 
   output [26:0] output_blue, output_red, output_yellow;
   input slow_clk;
-  
+
   input [99:0] input_red, input_yellow, input_blue;
   input load_n;
 

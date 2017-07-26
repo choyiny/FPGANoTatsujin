@@ -135,7 +135,7 @@ module tatsujin(
                              increase_score,
                              decrease_score);
 
-
+  // output to LED to assist people in clicking the button
   assign LEDG[4] = output_red[25];
   assign LEDG[2] = output_yellow[25];
   assign LEDG[0] = output_blue[25];
@@ -171,16 +171,11 @@ module tatsujin(
                                    decrease_score,
                                    reset_counter,
                                    the_combo);
-
+  // display the combo
   seven_segment_display combo_lo(the_combo[3:0], HEX0);
   seven_segment_display combo_hi(the_combo[7:4], HEX1);
 
-  // NOTE: (to self) this works!
-  // controls the speed of the song
-  // rate_divider speed_of_song(.clock(CLOCK_50),
-  //                            .divide_by(28'b00010111110101111000000100000),
-	// 						                .out_signal(slow_clock),
-	// 							              .reset_b(1'b1));
+  // this controls the speed of the song
   wire slow_clock;
   rate_divider_choose speed_of_song2(.clock(CLOCK_50),
                                      .load_selectors(SW[17:16]),

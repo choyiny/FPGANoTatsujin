@@ -1,5 +1,5 @@
 /**
- * Determines what square is being drawn and its colour
+ * FSM to determine what square and which row is being drawn and its colour
  */
 module square_info(
   input [25:0] red_sequence, // Sequences are first 30 bits of shifters
@@ -36,13 +36,13 @@ module square_info(
   // Co-ordinates
   localparam start_x = 7'b0000001,
              start_y = 7'b0110101;
-  
+
   localparam x_offset = 7'b0000101,
              y_offset = 7'b0001011;
-  
+
   reg [7:0] curr_x;
   reg [6:0] curr_y;
-  
+
   // Assign co-ordinate outputs
   assign output_x = curr_x;
   assign output_y = curr_y;
@@ -58,11 +58,11 @@ module square_info(
              Square25 = 6'd24, Square26 = 6'd25, Square27 = 6'd26,
              Square28 = 6'd27, Square29 = 6'd28, Square30 = 6'd29,
              Row_Swap = 6'd30; // Row swap state is when rows are switched
-  
+
   assign swap_now = (curr_square_state == Row_Swap);
-  
+
   localparam row1 = 2'd0, row2 = 2'd1, row3 = 2'd2;
-  
+
   // This changes what row we are drawing in
   always @(posedge clk)
   begin: row_state_table
@@ -72,7 +72,7 @@ module square_info(
       row3: curr_row_state = swap_now ? row1 : row3;
       default: curr_row_state = row1;
     endcase
-    
+
     case(curr_square_state) // Will cycle through all 30 squares then go to the next row and begin cycle again
       Square1: curr_square_state = Square2;
       Square2: curr_square_state = Square3;
@@ -100,10 +100,6 @@ module square_info(
       Square24: curr_square_state = Square25;
       Square25: curr_square_state = Square26;
       Square26: curr_square_state = Row_Swap;
-     /* Square27: curr_square_state = Square28; // Extra squares
-      Square28: curr_square_state = Square29;
-      Square29: curr_square_state = Square30;
-      Square30: curr_square_state = Row_Swap;*/ 
       Row_Swap: curr_square_state = Square1;
       default: curr_square_state = Square1;
     endcase
